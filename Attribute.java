@@ -13,6 +13,16 @@ public class Attribute{
     this.dataType = name;
     this.length = length;
   }
+  
+  public String getName(){
+      return name;
+  }
 
+  public String getDataType(){
+    return dataType;
+  }
 
+  public int getLength(){
+    return length;
+  }
 }
