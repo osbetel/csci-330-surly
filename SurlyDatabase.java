@@ -6,6 +6,11 @@ public class SurlyDatabase{
 
   LinkedList relations;
 
+  public SurlyDatabase(){
+    relations = new LinkedList<Relation>();
+    
+  }
+
   public Relation getRelation(String name){
 
   }
@@ -15,7 +20,7 @@ public class SurlyDatabase{
   }
 
   public void createRelation(Relation relation){
-    
+
   }
 
 }
