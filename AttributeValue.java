@@ -6,4 +6,9 @@ public class AttributeValue{
   String name;
   String value;
 
+  public void AttributeValue(String name, String value){
+    this.name = name;
+    this.value = value;
+  }
+
 }
