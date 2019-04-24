@@ -10,5 +10,12 @@ public class AttributeValue{
     this.name = name;
     this.value = value;
   }
+  public String getName(){
+      return name;
+  }
+
+  public String value(){
+    return value;
+  }
 
 }
