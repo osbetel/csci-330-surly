@@ -2,7 +2,7 @@ import java.util.*;
 import java.io.*;
 import java.lang.*;
 
-publib class Relation{
+public class Relation{
 
   String name;
   LinkedList<Attribute> schema;
