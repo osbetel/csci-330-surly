@@ -4,10 +4,14 @@ import java.lang.*;
 
 public class Tuple{
 
-  LinkedList values;
+  LinkedList<Attribute> values;
+
+  public Tuple(LinkedList values){
+    this.values = values;
+  }
 
   public String getValue(String attributeName){
-    
+
   }
 
 }
