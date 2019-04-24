@@ -33,4 +33,8 @@ public class InsertParser{
       }
     return count - 2;
   }
+  
+  public Tuple parseTuple(){
+      
+  }
 }
