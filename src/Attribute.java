@@ -1,17 +1,15 @@
-import java.util.*;
-import java.io.*;
 import java.lang.*;
 
 public class Attribute{
 
-  String name;
-  String dataType;
-  int length;
+  private String name;
+  private String dataType;
+  private int length;
 
   public Attribute(String name, String dataType, int length){
-    this.name = name;
-    this.dataType = name;
-    this.length = length;
+      this.name = name;
+      this.dataType = dataType;
+      this.length = length;
   }
   
   public String getName(){
