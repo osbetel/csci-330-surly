@@ -1,3 +1,7 @@
+import java.util.*;
+import java.io.*;
+import java.lang.*;
+
 public class RelationParser{
 
   String input;
@@ -14,19 +18,29 @@ public class RelationParser{
     return relation;
   }
 
-  public int parseAttributeCount(){
-    if(input.indexOf("(")>0 && input.indexOf(")")>0){
-      String sub= input.substring(input.indexOf("(")+1, input.indexOf(")"));
-      String[] attri= sub.split(",");
-      int num= attri.length;
-      if(syntaxCheck(attri)){
-        return num;
-      }
-      else{
-        return -1;
+  public Relation parseRelation(){
+    String subInput=input.substring(input.indexOf("(")+1,input.indexOf(")"));
+    String[] AttributeArr=subInput.split(",");
+    LinkedList<Attribute> attributes= new LinkedList<Attribute>();
+    for(String attr: AttributeArr){
+      String[] AttParam=attr.split(" ");
+      AttParam=spaceCleaner(AttParam);
+      Attribute attribute=new Atribute(AttParam[0], AttParam[1], AttParam[2]);
+      attributes.add(attribute);
+    }
+    Relation relate= new Relation(parseRelation(), attributes, null);
+    return relate;
+  }
+  public String[] spaceCleaner(String[] line){
+    String[] cleaned=new String[3];
+    int i=0;
+    for(String string: line){
+      if(string.equals("")==false || string.equals(" ")==false){
+        cleaned[i]=string;
+        i++;
       }
     }
-    return -1;
+    return cleaned;
   }
 
   public boolean syntaxCheck(String[] attributes){
