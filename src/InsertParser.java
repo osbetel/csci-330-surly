@@ -13,6 +13,37 @@ public class InsertParser{
     return relation;
   }
 
+  public Tuple parseTuple(){
+    char[] inputCharArray= input.toCharArray();
+
+    //To do parse input into array with single qoute proccessing
+    int start=0;
+    int end=0;
+    int roughIndex=0;
+    String[] roughValues=new String[parseInsertCount()];
+    for(end=0; end<=inputCharArray.length;){
+      if(inputCharArray[start]!=' '){
+        while(end<inputCharArray.length && inputCharArray[end]!=' '){
+          if(inputCharArray[end]=='\''){
+            end++;
+            while(inputCharArray!='\''){
+              end++;
+            }
+          }
+          end++;
+        }
+        roughValues[roughIndex]=input.substring(start,end);
+        roughIndex++;
+        start=end;
+      }
+      end++;
+      start++;
+    }
+    String[] clean = Arrays.copyOfRange(rough,2,roughValues.length);
+    LinkedList attrValue= new LinkedList();
+
+  }
+
   public int parseInsertCount(){
     char[] charArr= input.toCharArray();
     int count=0;
@@ -31,10 +62,6 @@ public class InsertParser{
            iter++;
         }
       }
-    return count - 2;
-  }
-  
-  public Tuple parseTuple(){
-      
+    return count;
   }
 }
