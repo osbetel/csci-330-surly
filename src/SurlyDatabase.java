@@ -98,9 +98,31 @@ public class SurlyDatabase{
     }
 
     public void printCatalog() {
-        for (Relation r : relations) {
-            System.out.println(r.toString());
+        String output = "";
+        int totalPad = 0;
+        output += String.format("%15s %15s", "RELATION", "ATTRIBUTE");
+        totalPad += 15 * 2 + 1;
+        output += "\n";
+
+        output = "\n" + output;
+        for (int i = 0; i < totalPad; i++) {
+            output = "-" + output;
         }
+
+        output = String.format("%15s", "CATALOG") + "\n" + output;
+
+        for (int i = 0; i < totalPad; i++) {
+            output += "-";
+        }
+
+        output += "\n";
+
+        for (Relation r : relations) {
+            output += String.format("%15s %15s", r.getName(), r.getAttrCount()) + "\n";
+        }
+
+        output += "\n";
+        System.out.println(output);
     }
 
 }

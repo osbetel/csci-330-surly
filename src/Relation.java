@@ -53,9 +53,65 @@ public class Relation {
 
     @Override
     public String toString() {
-        return  padRight("Relation Name:", 20) + name + "\n" +
-                padRight("Format:", 20) + schema + "\n" +
-                padRight("Current Entries:", 20) + tuples + "\n";
+
+//      Should look like this as output
+//        ***********************
+//        | PREREQ              |
+//        -----------------------
+//        | CNUM    | PNUM      |
+//        -----------------------
+//        | ​CSCI141 |​ MATH112 |
+//        | ​CSCI145 |​ MATH115 |
+//        | ​CSCI145 |​ CSCI141 |
+//        | ​CSCI241 |​ MATH124 |
+//        | ​CSCI241 |​ CSCI145 |
+//        | ​CSCI301 |​ CSCI145 |
+//        | ​CSCI305 |​ CSCI301 |
+//        | ​CSCI305 |​ CSCI241 |
+//        | ​CSCI330 |​ CSCI241 |
+//        | ​CSCI345 |​ CSCI241 |
+//        ************************
+
+        String output = "";
+        int totalPad = 0;
+        for (Attribute at : schema) {
+            if (at.getName().equals("TITLE")) {
+                output += String.format("%40s", at.getName());
+                totalPad += 40;
+            } else {
+                output += String.format("%15s", at.getName());
+                totalPad += 15;
+            }
+        }
+        output += "\n";
+
+        for (int i = 0; i < totalPad; i++) {
+            output += "-";
+        }
+
+        output += "\n";
+
+        for (Tuple t : tuples) {
+            for (Attribute at : schema) {
+                if (at.getName().equals("TITLE")) {
+                    output += String.format("%40s", t.getValue(at.getName()));
+                }
+                else {
+                    output += String.format("%15s", t.getValue(at.getName()));
+                }
+            }
+            output += "\n";
+        }
+        output = "\n" + output;
+        for (int i = 0; i < totalPad; i++) {
+            output = "-" + output;
+        }
+        output = String.format("%15s", name) + "\n" + output;
+        for (int i = 0; i < totalPad; i++) {
+            output += "-";
+        }
+        output += "\n";
+        return output;
     }
 
     public final LinkedList<Attribute> getSchema() {

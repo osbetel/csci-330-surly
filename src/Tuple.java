@@ -16,7 +16,7 @@ public class Tuple {
      * @param values Values should be passed in by the calling function,
      *               In this case it is the InsertParser
      */
-    public Tuple(LinkedList<AttributeValue> values){
+    public Tuple(LinkedList<AttributeValue> values) {
         this.values = values;
     }
 
@@ -25,10 +25,10 @@ public class Tuple {
      * @param attrName Attribute name
      * @return Returns a String of the attribute's value. NOT the AttributeValue obj
      */
-    public String getValue(String attrName){
+    public String getValue(String attrName) {
         //needs to search the Tuple's List of AttributeValues for
         //A given attribute name, and return that value
-        return valueBinarySearch(attrName, 0, values.size() - 1);
+        return valueBinarySearch(attrName, 0, values.size());
     }
 
     /**
