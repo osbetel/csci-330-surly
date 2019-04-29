@@ -1,6 +1,10 @@
 import java.lang.*;
 import java.util.Arrays;
 
+/**
+ * The logical counterpart to Attribute.
+ * If something has an Attribute, that Attribute should have a Value...
+ */
 public class AttributeValue{
     String name;
     String value;
@@ -9,6 +13,7 @@ public class AttributeValue{
         this.name = name;
         this.value = value;
     }
+
     public String getName(){
         return name;
     }

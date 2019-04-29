@@ -51,9 +51,6 @@ public class SurlyDatabase{
         } else if (start < mid && mid < end) {
             Relation left = relationBinarySearch(name, start, mid);
             Relation right = relationBinarySearch(name, mid, end);
-            //todo: need to handle case where Relation doesn't exist
-            // or case where multiple copies of the relation exist with
-            // identical names but different attributes.
             if (left != null) {
                 return left;
             } else {
@@ -63,6 +60,11 @@ public class SurlyDatabase{
         return null;
     }
 
+    /**
+     * Utilizes the binary search above to find a given Relation by name.
+     * @param relName Name of the target Relation
+     * @return True if Relation in Database, False otherwise
+     */
     public boolean containsRelation(String relName) {
         Relation r = relationBinarySearch(relName, 0, relations.size());
         if (r == null) {
@@ -91,7 +93,11 @@ public class SurlyDatabase{
         relations.add(relation);
     }
 
-    public void printRelations() {
+    public void printRelation(String relName) {
+        System.out.println(getRelation(relName).toString());
+    }
+
+    public void printCatalog() {
         for (Relation r : relations) {
             System.out.println(r.toString());
         }

@@ -40,6 +40,10 @@ public class Tuple {
      */
     private String valueBinarySearch(String name, int start, int end) {
 
+        if (start == end) {
+            return null;
+        }
+
         int mid = (start + end) / 2;
         if (values.get(mid).getName().equals(name)) {
             return values.get(mid).getValue();
