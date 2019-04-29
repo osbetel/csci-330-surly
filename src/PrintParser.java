@@ -1,15 +1,24 @@
-import java.util.*;
- public class PrintParser{
+/**
+ * Handles PRINT commands
+ */
+public class PrintParser {
 
- String input;
+//    #PRINTING TUPLES
+//    PRINT COURSE, OFFERING, PREREQ;
 
- PrintParser(String line){
- input=line;
- }
+    private String input;
+    private String[] relationNames;
 
- public String[] parseRelationNames(){
-   String[] inputArray= input.split(" ");
-   String[] printArray= Arrays.copyOfRange(inputArray,1, inputArray.length);
-   return printArray;
- }
+    public PrintParser(String input) {
+        this.input = input;
+
+    }
+
+    public String[] parseRelationNames() {
+        if (relationNames == null) {
+            relationNames = input.substring(input.indexOf(" ") + 1).split(", ");
+        }
+        return relationNames;
+    }
+
 }

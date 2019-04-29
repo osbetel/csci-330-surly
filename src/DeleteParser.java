@@ -1,7 +1,8 @@
-import java.util.*;
-import java.io.*;
 import java.lang.*;
 
+/**
+ * Parses DELETE statements
+ */
 public class DeleteParser{
 
   String input;
@@ -10,7 +11,7 @@ public class DeleteParser{
     this.input=input;
   }
 
-  public String parseRelationName(){
+  public String parseRelationName() {
     String[] line=input.split(" ");
     return line[1];
   }
