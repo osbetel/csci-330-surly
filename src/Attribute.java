@@ -6,21 +6,25 @@ public class Attribute{
   private String dataType;
   private int length;
 
-  public Attribute(String name, String dataType, int length){
+  public Attribute(String name, String dataType, int length) {
       this.name = name;
       this.dataType = dataType;
       this.length = length;
   }
   
-  public String getName(){
+  public String getName() {
       return name;
   }
 
-  public String getDataType(){
+  public String getDataType() {
     return dataType;
   }
 
-  public int getLength(){
+  public int getLength() {
     return length;
+  }
+
+  public String toString() {
+      return name + " " + dataType + " " + length;
   }
 }

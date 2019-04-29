@@ -7,7 +7,7 @@ import java.lang.*;
  * the Tuple holds AttributeValues that give values according to that definition.
  * ie: if a Relation is [name, id, birthday] then tuple has [bob, 123, 01/01/2019]
  */
-public class Tuple{
+public class Tuple {
 
     private LinkedList<AttributeValue> values;
 
@@ -53,5 +53,10 @@ public class Tuple{
             }
         }
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return values.toString();
     }
 }

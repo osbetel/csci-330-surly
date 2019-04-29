@@ -23,7 +23,7 @@ public class SurlyDatabase{
      * @return Relation obj. Should return null if Relation does not exist. //todo
      */
     public Relation getRelation(String name) {
-        return relationBinarySearch(name, 0, relations.size() - 1);
+        return relationBinarySearch(name, 0, relations.size());
     }
 
     /**
@@ -40,6 +40,10 @@ public class SurlyDatabase{
      * @return Returns the desired Relation object. Save that reference.
      */
     private Relation relationBinarySearch(String name, int start, int end) {
+
+        if (start == end) {
+            return null;
+        }
 
         int mid = (start + end) / 2;
         if (relations.get(mid).getName().equals(name)) {
@@ -59,6 +63,15 @@ public class SurlyDatabase{
         return null;
     }
 
+    public boolean containsRelation(String relName) {
+        Relation r = relationBinarySearch(relName, 0, relations.size());
+        if (r == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     /**
      * Executes order 66.
      * Note, destroying removes all the data under a Relation, and removes it from the SurlyDatabase
@@ -70,11 +83,18 @@ public class SurlyDatabase{
     }
 
     /**
-     * The first galactic empire.
+     * Creates a new Relation (categories) that you can then insert tuples under, so long as they
+     * Follow that relation's format (which is in the LinkedList<Attribute> attached to a Relation obj.
      * @param relation The Relation object you want to insert into the SurlyDatabase.
      */
     public void createRelation(Relation relation) {
         relations.add(relation);
+    }
+
+    public void printRelations() {
+        for (Relation r : relations) {
+            System.out.println(r.toString());
+        }
     }
 
 }

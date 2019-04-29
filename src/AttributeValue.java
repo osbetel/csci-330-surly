@@ -1,10 +1,11 @@
 import java.lang.*;
+import java.util.Arrays;
 
 public class AttributeValue{
     String name;
     String value;
 
-    public void AttributeValue(String name, String value){
+    public AttributeValue(String name, String value){
         this.name = name;
         this.value = value;
     }
@@ -14,6 +15,13 @@ public class AttributeValue{
 
     public String getValue(){
         return value;
+    }
+
+    @Override
+    public String toString() {
+        String[] s = new String[2];
+        s[0] = name; s[1] = value;
+        return Arrays.toString(s);
     }
 
 }
