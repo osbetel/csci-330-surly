@@ -54,24 +54,6 @@ public class Relation {
     @Override
     public String toString() {
 
-//      Should look like this as output
-//        ***********************
-//        | PREREQ              |
-//        -----------------------
-//        | CNUM    | PNUM      |
-//        -----------------------
-//        | ​CSCI141 |​ MATH112 |
-//        | ​CSCI145 |​ MATH115 |
-//        | ​CSCI145 |​ CSCI141 |
-//        | ​CSCI241 |​ MATH124 |
-//        | ​CSCI241 |​ CSCI145 |
-//        | ​CSCI301 |​ CSCI145 |
-//        | ​CSCI305 |​ CSCI301 |
-//        | ​CSCI305 |​ CSCI241 |
-//        | ​CSCI330 |​ CSCI241 |
-//        | ​CSCI345 |​ CSCI241 |
-//        ************************
-
         String output = "";
         int totalPad = 0;
         for (Attribute at : schema) {

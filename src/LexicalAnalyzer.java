@@ -54,6 +54,9 @@ public class LexicalAnalyzer {
                 }
             }
 
+            //Scrub input for extra whitespaces first
+            commandToParse = scrubWhitespace(commandToParse);
+
             if (commandToParse.startsWith("RELATION")) {
                 //Format is as follows: RELATION relationName (attrName1 <dataType> numOfChars,...);
                 RelationParser rp = new RelationParser(commandToParse);
@@ -71,7 +74,6 @@ public class LexicalAnalyzer {
                     }
                     database.createRelation(new Relation(relationName, attrList));
                 }
-//                System.out.println();
             }
 
             else if (commandToParse.startsWith("INSERT")) {
@@ -135,4 +137,9 @@ public class LexicalAnalyzer {
             }
         }
     }
+
+    public String scrubWhitespace(String s) {
+        return s.trim().replaceAll(" +", " ");
+    }
+
 }
