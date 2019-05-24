@@ -6,7 +6,7 @@ import java.lang.*;
  * relating to the database.
  * LexicalAnalyzer has an instance of SurlyDatabase
  */
-public class SurlyDatabase{
+public class SurlyDatabase {
 
     private LinkedList<Relation> relations;
 

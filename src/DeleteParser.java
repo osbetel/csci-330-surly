@@ -11,6 +11,8 @@ public class DeleteParser{
     this.input=input;
   }
 
+  //todo add parsing for DELETE <relationname> WHERE <condition>
+
   public String parseRelationName() {
     String[] line=input.split(" ");
     return line[1];
