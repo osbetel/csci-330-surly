@@ -1,14 +1,22 @@
+import java.util.*;
+import java.lang.*;
 
-/*
- * Created by: Andrew Nguyen
- * Date: 2019-05-24
- * Time: 14:32
- * csci-330-surly
- */
+public class SelectParser{
+  public Relation temp;
 
-public class SelectParser {
+  public SelectParser(Relation copy){
+    temp= copy;
+  }
 
-    //todo add support for SELECT <relationname>
-    //and SELECT <relationname> WHERE <condition>
-
+  public Relation createTemp(){
+    Random rand = new Random();
+    LinkedList<Tuple> values = temp.getTuples();
+    for(Tuple tuple: values){
+      int num= rand.nextInt(0,11);
+      if(num%2==0){
+        values.remove(tuple);
+      }
+    }
+    return temp;
+  }
 }
