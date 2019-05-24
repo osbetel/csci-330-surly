@@ -11,6 +11,7 @@ public class Relation {
     private String name;
     private LinkedList<Attribute> schema;
     private LinkedList<Tuple> tuples;
+    public boolean canModify;
 
     /**
      * Constructor
@@ -21,10 +22,11 @@ public class Relation {
      *               And each Attribute object tells us what format and type
      *               the corresponding AttributeValue (int the Tuple) must take.
      */
-    public Relation(String name, LinkedList<Attribute> schema){
+    public Relation(String name, LinkedList<Attribute> schema, final boolean canModify){
         this.name = name;
         this.schema = schema;
         this.tuples = new LinkedList<>();
+        this.canModify = canModify;
     }
 
     private Relation(Relation rel) {
@@ -78,6 +80,10 @@ public class Relation {
     //Specifically, returns how many attributes something in this Relation should have
     public int getAttrCount() {
         return schema.size();
+    }
+
+    public final boolean getCanModify() {
+        return canModify;
     }
 
     @Override

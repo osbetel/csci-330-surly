@@ -133,7 +133,7 @@ public class LexicalAnalyzer {
             }
         }
     }
-    
+
     public String scrubWhitespace(String s) {
         return s.trim().replaceAll(" +", " ");
     }
