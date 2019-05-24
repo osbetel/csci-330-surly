@@ -6,6 +6,6 @@
  * csci-330-surly
  */
 
-public class WhereConditionHandler {
+public class BooleanConditionHandler {
 
 }

@@ -28,7 +28,6 @@ public class LexicalAnalyzer {
         try {
             sc = new Scanner(new File(filename));
         } catch (FileNotFoundException ex) {
-            System.err.println(ex);
             ex.printStackTrace();
         }
 
@@ -43,7 +42,7 @@ public class LexicalAnalyzer {
 
         sc.useDelimiter(";"); //each sc.next consumes the text file up to the next semi-colon
         while (sc.hasNextLine()) {
-
+            //todo: add some handling for bad input
             String nextString = sc.next();
             String commandToParse = "";
             Scanner sc2 = new Scanner(nextString);
@@ -132,6 +131,19 @@ public class LexicalAnalyzer {
 //                database.getRelation("COURSE").delete();
 //                database.printRelations();
             }
+
+            else if (commandToParse.startsWith("JOIN")) {
+                //todo fill out body
+            }
+
+            else if (commandToParse.startsWith("PROJECT")) {
+                //todo fill out body
+            }
+
+            else if (commandToParse.startsWith("SELECT")) {
+                //todo fill out body
+            }
+
             else {  //For random or unrecognized, non-legitimate commands, just skips over them
                 continue;
             }
