@@ -31,6 +31,10 @@ public class Tuple {
         return valueBinarySearch(attrName, 0, values.size());
     }
 
+    public final LinkedList<AttributeValue> getValueList() {
+        return values;
+    }
+
     /**
      * The binary search behind getValue()
      * @param name desired target attribute name

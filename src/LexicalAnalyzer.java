@@ -73,9 +73,7 @@ public class LexicalAnalyzer {
                     }
                     database.createRelation(new Relation(relationName, attrList));
                 }
-            }
-
-            else if (commandToParse.startsWith("INSERT")) {
+            } else if (commandToParse.startsWith("INSERT")) {
                 // INSERT relationName [relation attributes]
                 InsertParser ip = new InsertParser(commandToParse);
                 String relationType = ip.parseRelationName();
@@ -90,9 +88,7 @@ public class LexicalAnalyzer {
                         System.out.println("Incorrect num of attributes: \"" + commandToParse + "\"");
                     }
                 }
-            }
-
-            else if (commandToParse.startsWith("DELETE")) {
+            } else if (commandToParse.startsWith("DELETE")) {
                 DeleteParser dp = new DeleteParser(commandToParse);
                 String relName = dp.parseRelationName();
 
@@ -102,9 +98,7 @@ public class LexicalAnalyzer {
                 } else {
                     System.out.println("Relation \"" + relName + "\" is not in the database.");
                 }
-            }
-
-            else if (commandToParse.startsWith("DESTROY")) {
+            } else if (commandToParse.startsWith("DESTROY")) {
                 DestroyParser dp = new DestroyParser(commandToParse);
                 String relName = dp.parseRelationName();
 
@@ -113,9 +107,7 @@ public class LexicalAnalyzer {
                 } else {
                     System.out.println("Relation \"" + relName + "\" is not in the database.");
                 }
-            }
-
-            else if (commandToParse.startsWith("PRINT")) {
+            } else if (commandToParse.startsWith("PRINT")) {
                 // PRINT relationName1, relationName2, ...
                 // Should just print all the values in that relation
                 PrintParser pp = new PrintParser(commandToParse);
@@ -130,26 +122,18 @@ public class LexicalAnalyzer {
 //                System.out.println("\n\n\n\n\n\n\n\n");
 //                database.getRelation("COURSE").delete();
 //                database.printRelations();
-            }
-
-            else if (commandToParse.startsWith("JOIN")) {
+            } else if (commandToParse.startsWith("JOIN")) {
                 //todo fill out body
-            }
-
-            else if (commandToParse.startsWith("PROJECT")) {
+            } else if (commandToParse.startsWith("PROJECT")) {
                 //todo fill out body
-            }
-
-            else if (commandToParse.startsWith("SELECT")) {
+            } else if (commandToParse.startsWith("SELECT")) {
                 //todo fill out body
-            }
-
-            else {  //For random or unrecognized, non-legitimate commands, just skips over them
+            } else {  //For random or unrecognized, non-legitimate commands, just skips over them
                 continue;
             }
         }
     }
-
+    
     public String scrubWhitespace(String s) {
         return s.trim().replaceAll(" +", " ");
     }

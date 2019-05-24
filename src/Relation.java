@@ -27,6 +27,27 @@ public class Relation {
         this.tuples = new LinkedList<>();
     }
 
+    private Relation(Relation rel) {
+        this.name = rel.getName();  //Strings are immutable so a reference copy is fine
+        //Need deep copies for the schema and tuple LinkedLists
+        this.schema = new LinkedList<>();
+        this.tuples = new LinkedList<>();
+
+        for (Attribute at : rel.getSchema()) {
+            this.schema.add(new Attribute(at.getName(), at.getDataType(), at.getLength()));
+            //Data types are (String, String, int), all of which return deep copies
+            //when simply copying references
+        }
+
+        for (Tuple t : rel.getTuples()) {
+            LinkedList<AttributeValue> atvCopy = new LinkedList<>();
+            for (AttributeValue atv : t.getValueList()) {
+                atvCopy.add(new AttributeValue(atv.getName(), atv.getValue()));
+            }
+            this.tuples.add(new Tuple(atvCopy));
+        }
+    }
+
     public void insert(Tuple tuple) {
         //Inserting an item into a relation class. eg: if we have tuple
         //('Bob', 19254, 'Comp. Sci.') under a relation of format
@@ -44,6 +65,14 @@ public class Relation {
 
     public String getName() {
         return name;
+    }
+
+    public final LinkedList<Attribute> getSchema() {
+        return schema;
+    }
+
+    public final LinkedList<Tuple> getTuples() {
+        return tuples;
     }
 
     //Specifically, returns how many attributes something in this Relation should have
@@ -96,11 +125,11 @@ public class Relation {
         return output;
     }
 
-    public final LinkedList<Attribute> getSchema() {
-        return schema;
-    }
-
     private static String padRight(String s, int n) {
         return String.format("%-" + n + "s", s);
+    }
+
+    public Relation copy() {
+        return new Relation(this);
     }
 }

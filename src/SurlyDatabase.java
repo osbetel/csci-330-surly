@@ -121,6 +121,10 @@ public class SurlyDatabase {
             output += String.format("%15s %15s", r.getName(), r.getAttrCount()) + "\n";
         }
 
+        for (int i = 0; i < totalPad; i++) {
+            output += "-";
+        }
+
         output += "\n";
         System.out.println(output);
     }

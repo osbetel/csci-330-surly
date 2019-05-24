@@ -6,8 +6,8 @@ import java.util.Arrays;
  * If something has an Attribute, that Attribute should have a Value...
  */
 public class AttributeValue{
-    String name;
-    String value;
+    private String name;
+    private String value;
 
     public AttributeValue(String name, String value){
         this.name = name;
