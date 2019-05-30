@@ -8,4 +8,18 @@
 
 public class ProjectParser {
 
+    private String input;
+    private String[] relationNames;
+
+    public ProjectParser(String input) {
+        this.input = input;
+    }
+
+    public String[] parseRelationNames() {
+        if (relationNames == null) {
+            relationNames = input.substring(input.indexOf(" ") + 1).split(", ");
+        }
+        return relationNames;
+    }
+
 }

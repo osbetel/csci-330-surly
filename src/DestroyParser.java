@@ -3,7 +3,7 @@ import java.lang.*;
 /**
  * Parses DESTROY statements
  */
-public class DestroyParser{
+public class DestroyParser {
 
   String input;
 
@@ -12,7 +12,7 @@ public class DestroyParser{
   }
 
   public String parseRelationName() {
-    String[] line=input.split(" ");
+    String[] line = input.split(" ");
     return line[1];
   }
 }
