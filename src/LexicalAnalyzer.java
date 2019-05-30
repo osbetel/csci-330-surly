@@ -43,7 +43,7 @@ public class LexicalAnalyzer {
         sc.useDelimiter(";"); //each sc.next consumes the text file up to the next semi-colon
         while (sc.hasNextLine()) {
             //todo: add some handling for bad input
-            String nextString = sc.next();
+            String nextString = sc.next();  //throws error if there is not an extra line of whitespace at the end of the test.txt file
             String commandToParse = "";
             Scanner sc2 = new Scanner(nextString);
             while (sc2.hasNextLine()) {
@@ -71,9 +71,11 @@ public class LexicalAnalyzer {
                         Attribute attribute = new Attribute(arr[0], arr[1], Integer.parseInt(arr[2]));
                         attrList.add(attribute);
                     }
-                    database.createRelation(new Relation(relationName, attrList));
+                    database.createRelation(new Relation(relationName, attrList, true));
                 }
-            } else if (commandToParse.startsWith("INSERT")) {
+            }
+
+            else if (commandToParse.startsWith("INSERT")) {
                 // INSERT relationName [relation attributes]
                 InsertParser ip = new InsertParser(commandToParse);
                 String relationType = ip.parseRelationName();
@@ -88,7 +90,9 @@ public class LexicalAnalyzer {
                         System.out.println("Incorrect num of attributes: \"" + commandToParse + "\"");
                     }
                 }
-            } else if (commandToParse.startsWith("DELETE")) {
+            }
+
+            else if (commandToParse.startsWith("DELETE")) {
                 DeleteParser dp = new DeleteParser(commandToParse);
                 String relName = dp.parseRelationName();
 
@@ -98,7 +102,9 @@ public class LexicalAnalyzer {
                 } else {
                     System.out.println("Relation \"" + relName + "\" is not in the database.");
                 }
-            } else if (commandToParse.startsWith("DESTROY")) {
+            }
+
+            else if (commandToParse.startsWith("DESTROY")) {
                 DestroyParser dp = new DestroyParser(commandToParse);
                 String relName = dp.parseRelationName();
 
@@ -107,7 +113,9 @@ public class LexicalAnalyzer {
                 } else {
                     System.out.println("Relation \"" + relName + "\" is not in the database.");
                 }
-            } else if (commandToParse.startsWith("PRINT")) {
+            }
+
+            else if (commandToParse.startsWith("PRINT")) {
                 // PRINT relationName1, relationName2, ...
                 // Should just print all the values in that relation
                 PrintParser pp = new PrintParser(commandToParse);
@@ -118,17 +126,27 @@ public class LexicalAnalyzer {
                         database.printRelation(r);
                     }
                 }
-                //For testing
-//                System.out.println("\n\n\n\n\n\n\n\n");
-//                database.getRelation("COURSE").delete();
-//                database.printRelations();
-            } else if (commandToParse.startsWith("JOIN")) {
+            }
+
+            else if (commandToParse.startsWith("JOIN")) {
                 //todo fill out body
-            } else if (commandToParse.startsWith("PROJECT")) {
-                //todo fill out body
-            } else if (commandToParse.startsWith("SELECT")) {
-                //todo fill out body
-            } else {  //For random or unrecognized, non-legitimate commands, just skips over them
+            }
+
+            else if (commandToParse.startsWith("PROJECT")) {
+                ProjectParser pp = new ProjectParser(commandToParse);
+                String[] relationsToProject = pp.parseRelationNames();
+            }
+
+            else if (commandToParse.startsWith("SELECT")) {
+                //SELECT is essentially just fetching a table and placing it into a var we can reference
+                SelectParser sp = new SelectParser(commandToParse);
+                Relation rel = database.getRelation(sp.parseRelationName());
+                sp.extract(rel.copy());
+                //rel.copy provides a deep copy so we don't modify the original relation
+                //then sp.extract will run through the boolean conditions and filter accordingly
+            }
+
+            else {  //For random or unrecognized, non-legitimate commands, just skips over them
                 continue;
             }
         }
