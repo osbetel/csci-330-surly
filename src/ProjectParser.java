@@ -39,7 +39,7 @@ public class ProjectParser {
     }
     LinkedList<Tuple> tempTuples = temp.getTuples();
     for(Tuple tuple: tempTuples){
-        LinkedList<attributeValue> tempAttributeval=tuple.getValueList();
+        LinkedList<AttributeValue> tempAttributeval=tuple.getValueList();
         for(AttributeValue value: tempAttributeval){
             if(attributeNames.includes(value.getName)==false){
                 tuple.reomve(value);
