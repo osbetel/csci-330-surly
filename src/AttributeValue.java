@@ -8,18 +8,24 @@ import java.util.Arrays;
 public class AttributeValue{
     private String name;
     private String value;
+    private Attribute parentType;   //every attribute value should know what type it is, ie:
 
-    public AttributeValue(String name, String value){
+    public AttributeValue(String name, String value, final Attribute parentType) {
         this.name = name;
         this.value = value;
+        this.parentType = parentType;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public String getValue(){
+    public String getValue() {
         return value;
+    }
+
+    public final Attribute getParentType() {
+        return parentType;
     }
 
     @Override

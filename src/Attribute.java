@@ -24,6 +24,10 @@ public class Attribute{
     return length;
   }
 
+  public Attribute copy() {
+      return new Attribute(name, dataType, length);
+  }
+
   public String toString() {
       return name + " " + dataType + " " + length;
   }

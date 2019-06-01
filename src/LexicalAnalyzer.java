@@ -13,13 +13,15 @@ public class LexicalAnalyzer {
     // ie: COURSE, PREREQ, OFFERING, etc. Using database.get("COURSE")
     // would return the Relation object for COURSE, which contains all the items that fall
     // under the COURSE Relation.
-    private SurlyDatabase database;
+    private SurlyDatabase primaryDB;
+    private SurlyDatabase tempDB;
 
     /**
      * Constructor.
      */
     public LexicalAnalyzer() {
-        this.database = new SurlyDatabase();
+        primaryDB = new SurlyDatabase();
+        tempDB = new SurlyDatabase();
     }
 
     public void run(String filename) {
@@ -63,7 +65,7 @@ public class LexicalAnalyzer {
                 int attrCount = rp.parseAttributeCount();
                 String[] attrFormat = rp.getAttrFormat();
 
-                if (!database.containsRelation(relationName)) {
+                if (!primaryDB.containsRelation(relationName)) {
                     LinkedList<Attribute> attrList = new LinkedList<>();
                     for (String s : attrFormat) {
                         //format of s is "CNUM CHAR 8" and attrFormat is [CNUM CHAR 8, TITLE CHAR 30, CREDITS NUM 4]
@@ -71,7 +73,7 @@ public class LexicalAnalyzer {
                         Attribute attribute = new Attribute(arr[0], arr[1], Integer.parseInt(arr[2]));
                         attrList.add(attribute);
                     }
-                    database.createRelation(new Relation(relationName, attrList, true));
+                    primaryDB.createRelation(new Relation(relationName, attrList, true));
                 }
             }
 
@@ -82,8 +84,8 @@ public class LexicalAnalyzer {
                 int itemAttrCount = ip.parseAttributeCount();
 
                 //inserts the Item into database under the relationType object
-                if (database.containsRelation(relationType)) {
-                    Relation rel = database.getRelation(relationType);
+                if (primaryDB.containsRelation(relationType)) {
+                    Relation rel = primaryDB.getRelation(relationType);
                     if (rel.getAttrCount() == itemAttrCount) {
                         rel.insert(ip.generateTuple(rel.getSchema()));
                     } else {
@@ -96,8 +98,8 @@ public class LexicalAnalyzer {
                 DeleteParser dp = new DeleteParser(commandToParse);
                 String relName = dp.parseRelationName();
 
-                if (database.containsRelation(relName)) {
-                    Relation rel = database.getRelation(relName);
+                if (primaryDB.containsRelation(relName)) {
+                    Relation rel = primaryDB.getRelation(relName);
                     rel.delete();
                 } else {
                     System.out.println("Relation \"" + relName + "\" is not in the database.");
@@ -108,8 +110,8 @@ public class LexicalAnalyzer {
                 DestroyParser dp = new DestroyParser(commandToParse);
                 String relName = dp.parseRelationName();
 
-                if (database.containsRelation(relName)) {
-                    database.destroyRelation(relName);
+                if (primaryDB.containsRelation(relName)) {
+                    primaryDB.destroyRelation(relName);
                 } else {
                     System.out.println("Relation \"" + relName + "\" is not in the database.");
                 }
@@ -121,9 +123,9 @@ public class LexicalAnalyzer {
                 PrintParser pp = new PrintParser(commandToParse);
                 for (String r : pp.parseRelationNames()) {
                     if (r.equals("CATALOG")) {
-                        database.printCatalog();
+                        primaryDB.printCatalog();
                     } else {
-                        database.printRelation(r);
+                        primaryDB.printRelation(r);
                     }
                 }
             }
@@ -133,14 +135,13 @@ public class LexicalAnalyzer {
             }
 
             else if (commandToParse.startsWith("PROJECT")) {
-                ProjectParser pp = new ProjectParser(commandToParse);
-                String[] relationsToProject = pp.parseRelationNames();
+                //todo
             }
 
             else if (commandToParse.startsWith("SELECT")) {
                 //SELECT is essentially just fetching a table and placing it into a var we can reference
                 SelectParser sp = new SelectParser(commandToParse);
-                Relation rel = database.getRelation(sp.parseRelationName());
+                Relation rel = primaryDB.getRelation(sp.parseRelationName());
                 sp.extract(rel.copy());
                 //rel.copy provides a deep copy so we don't modify the original relation
                 //then sp.extract will run through the boolean conditions and filter accordingly

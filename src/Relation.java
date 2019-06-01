@@ -44,7 +44,7 @@ public class Relation {
         for (Tuple t : rel.getTuples()) {
             LinkedList<AttributeValue> atvCopy = new LinkedList<>();
             for (AttributeValue atv : t.getValueList()) {
-                atvCopy.add(new AttributeValue(atv.getName(), atv.getValue()));
+                atvCopy.add(new AttributeValue(atv.getName(), atv.getValue(), atv.getParentType().copy()));
             }
             this.tuples.add(new Tuple(atvCopy));
         }

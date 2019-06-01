@@ -47,9 +47,9 @@ public class InsertParser {
 
         if (attrArr.length == schema.size()) {
             for (int i = 0; i < attrArr.length; i++) {
-                String name = schema.get(i).getName();
+                Attribute a = schema.get(i);
                 String value = attrArr[i];
-                AttributeValue attrToInsert = new AttributeValue(name, value);
+                AttributeValue attrToInsert = new AttributeValue(a.getName(), value, a);
                 attrValueList.add(attrToInsert);
             }
         }
