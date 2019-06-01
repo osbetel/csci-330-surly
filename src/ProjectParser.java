@@ -9,7 +9,7 @@
  *Edited by Jonathan McCamey
  *Date: 2019-06-01
  *csci-330-surly
- *Time 14:34
+ *Time 14:53
  *
  */
 import java.util.*;
@@ -33,26 +33,19 @@ public class ProjectParser {
     ParseAttributeNames();
     LinkedList<Attribute> AttributeList = temp.getSchema()
     for(AttributeValue colName: AttributeList ){
-      for(String attributeName: attributeNames){
-        if(name.getName().equals(attributeName)){
+        if(attributeNames.includes(colName.getName())==false){
           AttributeList.remove(colName);
-          break;
-        }
       }
     }
     LinkedList<Tuple> tempTuples = temp.getTuples();
     for(Tuple tuple: tempTuples){
       for(AttributeValue value: tuple){
-        for(String attributeName: attributeNames){
-          if(value.getName().equals(attributeName)){
-            tuple.remove(value);
-            break;
-          }
+        if(attributeNames.includes(value.getName)==false){
+            tuple.reomve(value);
+        }
         }
       }
-    }
     return temp;
-
   }
 
   private void ParseRelationNames(){
