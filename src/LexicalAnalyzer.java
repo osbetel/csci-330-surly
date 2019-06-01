@@ -131,10 +131,14 @@ public class LexicalAnalyzer {
             else if (commandToParse.startsWith("JOIN")) {
                 //todo fill out body
             }
-
+            //Project parser constructor takes in a string that conatains which atributes to project
+            //and a deep copy provided by rel.copy, which can be edited to have the desired
+            //atrributes to print
             else if (commandToParse.startsWith("PROJECT")) {
-                ProjectParser pp = new ProjectParser(commandToParse);
-                String[] relationsToProject = pp.parseRelationNames();
+                Relation rel = database.getRelation(sp.parseRelationName());
+                ProjectParser pp = new ProjectParser(commandToParse, rel.copy());
+                Relation temp= pp.Project();
+                database.printRelation(temp);
             }
 
             else if (commandToParse.startsWith("SELECT")) {
