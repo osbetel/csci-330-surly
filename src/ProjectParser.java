@@ -32,24 +32,37 @@ public class ProjectParser {
   private Relation Project(){
     ParseAttributeNames();
     LinkedList<Attribute> AttributeList = temp.getSchema()
-    for(AttributeValue colName: AttributeList ){
-        if(attributeNames.includes(colName.getName())==false){
-          AttributeList.remove(colName);
+    for(AttributeValue colName: AttributeList){
+      boolean wantedAtt = false;
+      for(String attributeName: attributeNames){
+        if(colName.getName().equals(attributeName)){
+          wantedAtt = true;
+        }
+      }
+      if(!wantedAtt){
+        AttributeList.remove(colName);
       }
     }
     LinkedList<Tuple> tempTuples = temp.getTuples();
     for(Tuple tuple: tempTuples){
-        LinkedList<AttributeValue> tempAttributeval=tuple.getValueList();
-        for(AttributeValue value: tempAttributeval){
-            if(attributeNames.includes(value.getName)==false){
-                tuple.reomve(value);
-            }
+      LinkedList<AttributeValue> tempAttrVal= tuple.getValue();
+      for(AttributeValue value: tempAttrVal){
+        boolean wantedVal = false;
+        for(String attributeName: attributeNames){
+          if(value.getName().equals(attributeName)){
+            wantedVal = true;
+          }
+        }
+        if(!wantedVal){
+          tempAttrVal.remove(value);
         }
       }
+    }
     return temp;
+
   }
 
-  private void ParseRelationNames(){
+  private void ParseAttributeNames(){
     if (attributeNames == null) {
             attributeNames = input.substring(input.indexOf(" ") + 1).split(", ");
     }
