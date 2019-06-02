@@ -6,11 +6,13 @@
  * csci-330-surly
  */
 
+import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 
 public class BooleanConditionHandler {
 
-    private String[] clause;
+    private List<String> clause;
     private Relation relation;
 
 
@@ -30,60 +32,56 @@ public class BooleanConditionHandler {
      * @param relation The relation object corresponding to the <relation-name>
      *                 That the DELETE, SELECT, etc. command is being called on.
      */
-    public BooleanConditionHandler(String[] clause, Relation relation) {
+    public BooleanConditionHandler(List<String> clause, Relation relation) {
         this.clause = clause;
         this.relation = relation;
     }
 
     public Relation extractTuples() {
         //temprelationname = SELECT relationname WHERE <conditions>;
-        for (String s : clause) {
-            //currently s = "CNUM = 12345" or something like that
-            String[] subclause = s.split(" ");
-            //now we have subclause = ["CNUM", "=", "12345"]; don't forget to handle 'multi symbols'
-            String attribute, operator, restriction;
-            if (subclause.length == 3) {
-                attribute = subclause[0];
-                operator = subclause[1];
-                restriction = subclause[2];
-            } else {
-                return relation;
-            }
+        //clause = ["CNUM", "=", "12345"]; or something similar
+        String attribute, operator, restriction;
+        if (clause.size() == 3) {
+            attribute = clause.get(0);
+            operator = clause.get(1);
+            restriction = clause.get(2);
+        } else {
+            return relation;
+        } //todo need to make this recursive for multi condition handling
 
-            LinkedList<Tuple> tuples = relation.getTuples();
-            for (Tuple t : tuples) {
-                switch (operator) {
-                    case "=":
-                        if (!t.getValue(attribute).equals(restriction)) {
-                            tuples.remove(t);
-                        }
-                        break;
-                    case "!=":
-                        if (!!t.getValue(attribute).equals(restriction)) {
-                            tuples.remove(t);
-                        }
-                        break;
-                    case "<":
-                        if (!(Integer.parseInt(t.getValue(attribute)) < Integer.parseInt(restriction))) {
-                            tuples.remove(t);
-                        }
-                        break;
-                    case ">":
-                        if (!(Integer.parseInt(t.getValue(attribute)) > Integer.parseInt(restriction))) {
-                            tuples.remove(t);
-                        }
-                        break;
-                    case "<=":
-                        if (!(Integer.parseInt(t.getValue(attribute)) <= Integer.parseInt(restriction))) {
-                            tuples.remove(t);
-                        }
-                        break;
-                    case ">=":
-                        if (!(Integer.parseInt(t.getValue(attribute)) >= Integer.parseInt(restriction))) {
-                            tuples.remove(t);
-                        }
-                        break;
-                }
+        LinkedList<Tuple> tuples = relation.getTuples();
+        for (Tuple t : tuples) {
+            switch (operator) {
+                case "=":
+                    if (!t.getValue(attribute).equals(restriction)) {
+                        tuples.remove(t);
+                    }
+                    break;
+                case "!=":
+                    if (!!t.getValue(attribute).equals(restriction)) {
+                        tuples.remove(t);
+                    }
+                    break;
+                case "<":
+                    if (!(Integer.parseInt(t.getValue(attribute)) < Integer.parseInt(restriction))) {
+                        tuples.remove(t);
+                    }
+                    break;
+                case ">":
+                    if (!(Integer.parseInt(t.getValue(attribute)) > Integer.parseInt(restriction))) {
+                        tuples.remove(t);
+                    }
+                    break;
+                case "<=":
+                    if (!(Integer.parseInt(t.getValue(attribute)) <= Integer.parseInt(restriction))) {
+                        tuples.remove(t);
+                    }
+                    break;
+                case ">=":
+                    if (!(Integer.parseInt(t.getValue(attribute)) >= Integer.parseInt(restriction))) {
+                        tuples.remove(t);
+                    }
+                    break;
             }
         }
         return relation;
