@@ -89,7 +89,7 @@ public class SurlyDatabase {
      * Follow that relation's format (which is in the LinkedList<Attribute> attached to a Relation obj.
      * @param relation The Relation object you want to insert into the SurlyDatabase.
      */
-    public void createRelation(Relation relation) {
+    public void addRelation(Relation relation) {
         relations.add(relation);
     }
 

@@ -73,7 +73,7 @@ public class LexicalAnalyzer {
                         Attribute attribute = new Attribute(arr[0], arr[1], Integer.parseInt(arr[2]));
                         attrList.add(attribute);
                     }
-                    primaryDB.createRelation(new Relation(relationName, attrList, true));
+                    primaryDB.addRelation(new Relation(relationName, attrList, true));
                 }
             }
 
@@ -144,9 +144,11 @@ public class LexicalAnalyzer {
                 //SELECT is essentially just fetching a table and placing it into a var we can reference
                 SelectParser sp = new SelectParser(commandToParse);
                 Relation rel = primaryDB.getRelation(sp.parseRelationName());
-                sp.extract(rel.copy());
+                Relation newRel = sp.extract(rel.copy());
                 //rel.copy provides a deep copy so we don't modify the original relation
                 //then sp.extract will run through the boolean conditions and filter accordingly
+                tempDB.addRelation(newRel);
+//                tempDB.printRelation(newRel.getName());
             }
 
             else {  //For random or unrecognized, non-legitimate commands, just skips over them
