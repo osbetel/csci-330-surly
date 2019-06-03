@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.util.*;
 import java.lang.*;
 
@@ -22,7 +21,7 @@ public class SelectParser{
             List<String> clause = parseBooleanClause();
             BooleanConditionHandler bch = new BooleanConditionHandler(clause, copy);
             Relation newRel = bch.extractTuples();
-            System.out.println(newRel.toString());
+//            System.out.println(newRel.toString());
             return newRel;
         } else {
             return copy;

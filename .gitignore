@@ -1,8 +1,6 @@
 
-*.iml
-
-*.xml
-
-src/Old SURLY0 Code/\.DS_Store
-
 out/
+
+\.idea/
+
+\.DS_Store

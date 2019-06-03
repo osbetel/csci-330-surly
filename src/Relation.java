@@ -77,6 +77,10 @@ public class Relation {
         return tuples;
     }
 
+    public void setTuples(LinkedList<Tuple> tuples) {
+        this.tuples = tuples;
+    }
+
     //Specifically, returns how many attributes something in this Relation should have
     public int getAttrCount() {
         return schema.size();

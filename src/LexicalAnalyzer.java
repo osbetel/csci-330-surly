@@ -148,7 +148,7 @@ public class LexicalAnalyzer {
                 //rel.copy provides a deep copy so we don't modify the original relation
                 //then sp.extract will run through the boolean conditions and filter accordingly
                 tempDB.addRelation(newRel);
-//                tempDB.printRelation(newRel.getName());
+                tempDB.printRelation(newRel.getName());
             }
 
             else {  //For random or unrecognized, non-legitimate commands, just skips over them
