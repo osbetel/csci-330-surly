@@ -43,12 +43,7 @@ public class BooleanConditionHandler {
     public Relation extractTuples() {
         //temprelationname = SELECT relationname WHERE <conditions>;
         //clause = ["CNUM", "=", "12345"]; or something similar
-        String attribute, operator, restriction;
-        if (clause.size() == 3) {
-            attribute = clause.get(0);
-            operator = clause.get(1);
-            restriction = clause.get(2);
-        } else if (clause.size() > 3) {
+         if (clause.size() > 3) {
             //this means we have something like [CAMPUSADDR, =, CF 479, AND, EXTENSION, =, 3769]
             //How do we handle? Find the center most AND, OR boolean operator and divide it into left halves and right halves
             //ie: [CAMPUSADDR, =, CF 479, AND, EXTENSION, =, 3769]
@@ -91,6 +86,13 @@ public class BooleanConditionHandler {
                 return lr;
             }
             return relation;
+        }
+
+        String attribute, operator, restriction;
+        if (clause.size() == 3) {
+            attribute = clause.get(0);
+            operator = clause.get(1);
+            restriction = clause.get(2);
         } else {
             return relation;
         }
@@ -132,44 +134,25 @@ public class BooleanConditionHandler {
             }
         }
         relation.setTuples(newTuples);
-//        System.out.println(relation.toString());
         return relation;
     }
 
-    public Relation extractAttributes() {
-        // from PROJECT command. In this case clause is <attribute names>
-        //temprelationname = PROJECT <attributenames> FROM relationname;
-        LinkedList<Attribute> schema = relation.getSchema();
-        LinkedList<Tuple> tuples = relation.getTuples();
-        for (Attribute attr : schema) {
-            if (!clauseContains(attr.getName())) {
-                //if the attribute is not mentioned in the clause, remove it
-                //need to also remove all corresponding AttributeValues per tuple.
-                schema.remove(attr);
-            }
-        }
+    public static ArrayList<String> combineSingleQuotes(String[] list) {
 
-        for (Tuple t : tuples) {
-            // for each tuple, we need to access its AttributeValue LinkedList
-            // And for each AttributeValue in the list, if we removed it from the
-            // schema, then remove the corresponding AttributeValue
-            LinkedList<AttributeValue> attrValueList = t.getValueList();
-            for (AttributeValue av : attrValueList) {
-                // if av has no parent Attribute type, delete
-                if (!schema.contains(av.getParentType())) {
-                    attrValueList.remove(av);
-                }
+        ArrayList<String> result = new ArrayList<>();
+        for (int i = 0; i < list.length - 1; i++) {
+            String left = list[i];
+            String right = list[i + 1];
+            if (result.size() == 0) {
+                result.add(left);
+            }
+            if (left.startsWith("'") && right.endsWith("'")) {
+                result.add(left.substring(1) + " " + right.substring(0, right.length() - 1));
+            } else if (!right.startsWith("'")) {
+                result.add(right);
             }
         }
-        return relation;
-    }
+        return result;
 
-    private boolean clauseContains(String attrName) {
-        for (String s : clause) {
-            if (attrName.equals(s)) {
-                return true;
-            }
-        }
-        return false;
     }
 }

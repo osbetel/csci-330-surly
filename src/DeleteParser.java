@@ -7,8 +7,8 @@ public class DeleteParser{
 
   String input;
 
-  public DeleteParser(String input){
-    this.input=input;
+  public DeleteParser(String input) {
+    this.input = input;
   }
 
   //todo add parsing for DELETE <relationname> WHERE <condition>

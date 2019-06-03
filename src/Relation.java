@@ -41,13 +41,24 @@ public class Relation {
             //when simply copying references
         }
 
+        //It's important that each AttributeValue made below, references the SAME Attribute as the ones made above
+        //When we make their parentType (see AttributeValue class)
         for (Tuple t : rel.getTuples()) {
             LinkedList<AttributeValue> atvCopy = new LinkedList<>();
             for (AttributeValue atv : t.getValueList()) {
-                atvCopy.add(new AttributeValue(atv.getName(), atv.getValue(), atv.getParentType().copy()));
+                atvCopy.add(new AttributeValue(atv.getName(), atv.getValue(), getAttributeFromSchema(schema, atv.getName())));
             }
             this.tuples.add(new Tuple(atvCopy));
         }
+    }
+
+    private Attribute getAttributeFromSchema(LinkedList<Attribute> sch, String name) {
+        for (Attribute at : sch) {
+            if (at.getName().equals(name)) {
+                return at;
+            }
+        }
+        return null;
     }
 
     public void insert(Tuple tuple) {
@@ -73,6 +84,10 @@ public class Relation {
         return schema;
     }
 
+    public void setSchema(LinkedList<Attribute> schema) {
+        this.schema = schema;
+    }
+
     public final LinkedList<Tuple> getTuples() {
         return tuples;
     }
@@ -84,10 +99,6 @@ public class Relation {
     //Specifically, returns how many attributes something in this Relation should have
     public int getAttrCount() {
         return schema.size();
-    }
-
-    public final boolean getCanModify() {
-        return canModify;
     }
 
     @Override

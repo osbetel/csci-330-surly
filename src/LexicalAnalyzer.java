@@ -97,7 +97,7 @@ public class LexicalAnalyzer {
             else if (commandToParse.startsWith("DELETE")) {
                 DeleteParser dp = new DeleteParser(commandToParse);
                 String relName = dp.parseRelationName();
-
+                //todo delete where
                 if (primaryDB.containsRelation(relName)) {
                     Relation rel = primaryDB.getRelation(relName);
                     rel.delete();
@@ -131,22 +131,27 @@ public class LexicalAnalyzer {
             }
 
             else if (commandToParse.startsWith("JOIN")) {
-                //todo fill out body
+//                JoinParser jp = new JoinParser(commandToParse);
+
             }
             //Project parser constructor takes in a string that conatains which atributes to project
             //and a deep copy provided by rel.copy, which can be edited to have the desired
             //atrributes to print
             else if (commandToParse.startsWith("PROJECT")) {
-                //todo
+                ProjectParser pp = new ProjectParser(commandToParse);
+                Relation rel = primaryDB.getRelation(pp.parseRelationName());
+                Relation newRel = pp.project(rel.copy());
+                tempDB.addRelation(newRel);
+                tempDB.printRelation(newRel.getName());
             }
 
             else if (commandToParse.startsWith("SELECT")) {
                 //SELECT is essentially just fetching a table and placing it into a var we can reference
                 SelectParser sp = new SelectParser(commandToParse);
                 Relation rel = primaryDB.getRelation(sp.parseRelationName());
-                Relation newRel = sp.extract(rel.copy());
+                Relation newRel = sp.select(rel.copy());
                 //rel.copy provides a deep copy so we don't modify the original relation
-                //then sp.extract will run through the boolean conditions and filter accordingly
+                //then sp.select will run through the boolean conditions and filter accordingly
                 tempDB.addRelation(newRel);
                 tempDB.printRelation(newRel.getName());
             }

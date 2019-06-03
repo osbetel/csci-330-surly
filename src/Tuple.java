@@ -35,6 +35,10 @@ public class Tuple {
         return values;
     }
 
+    public void setValues(LinkedList<AttributeValue> lst) {
+        values = lst;
+    }
+
     /**
      * The binary search behind getValue()
      * @param name desired target attribute name
