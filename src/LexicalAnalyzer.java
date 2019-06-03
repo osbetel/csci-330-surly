@@ -139,7 +139,6 @@ public class LexicalAnalyzer {
                 Relation newRel = jp.join(A, B);
                 newRel.setName(jp.parseAssignmentName());
                 tempDB.addRelation(newRel);
-                System.out.println(newRel);
             }
 
             //Project parser constructor takes in a string that conatains which atributes to project
@@ -165,9 +164,6 @@ public class LexicalAnalyzer {
                 continue;
             }
         }
-//        for (Relation r : tempDB.allRelations()) {
-//            System.out.println(r);
-//        }
     }
 
     /**

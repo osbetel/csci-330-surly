@@ -27,13 +27,14 @@ public class SelectParser{
         }
     }
 
+    /**
+     * Extracts a boolean clause
+     * eg: "student.ID = '12345'" --> ["student.ID", "=", "12345"]
+     * eg: TITLE = ‘DATABASE SYSTEMS’ or CNUM != CSCI301 and CREDITS > 3
+     * --> ["TITLE", "=", "DATABASE SYSTEMS", "or", "CNUM", "!=", "CSCI301", "and", "CREDITS", ">", "3"]
+     * Don't forget boolean precedence! and > or
+     */
     private List<String> parseBooleanClause() {
-        /**
-         * eg: "student.ID = '12345'" --> ["student.ID", "=", "12345"]
-         * eg: TITLE = ‘DATABASE SYSTEMS’ or CNUM != CSCI301 and CREDITS > 3
-         * --> ["TITLE", "=", "DATABASE SYSTEMS", "or", "CNUM", "!=", "CSCI301", "and", "CREDITS", ">", "3"]
-         * Don't forget boolean precedence! and > or
-         */
         ArrayList<String> separated = BooleanConditionHandler.combineSingleQuotes(input.split(" "));
         return separated.subList(separated.indexOf("WHERE") + 1, separated.size());
     }

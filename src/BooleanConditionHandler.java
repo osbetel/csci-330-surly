@@ -40,6 +40,14 @@ public class BooleanConditionHandler {
         this.relation = relation;
     }
 
+    /**
+     * This is stupidly large, AND it's recursive, but it does the job, and is technically O(nlogn), so I'm ok
+     * with it... Basically, if there is one boolean, x = y, it only checks that (see if clause.size() == 3).
+     * If it is bigger, then this function searches for boolean AND, OR by precedence (AND first, then OR).
+     * It then recursively applies the left subclause and right subclause according to that boolean op.
+     * eg: [left subclause] AND/OR [right subclause]
+     * @return Returns a relation with only the elements that match the boolean condition in this.clause
+     */
     public Relation extractTuples() {
         //temprelationname = SELECT relationname WHERE <conditions>;
         //clause = ["CNUM", "=", "12345"]; or something similar
@@ -137,6 +145,10 @@ public class BooleanConditionHandler {
         return relation;
     }
 
+    /**
+     * Whenever there are single quoted symbols they are to be interpreted as a single symbol.
+     * For ease of use we split by spaces, so this recombines ['CF, 479'] --> [CF 479]
+     */
     public static ArrayList<String> combineSingleQuotes(String[] list) {
 
         ArrayList<String> result = new ArrayList<>();
@@ -156,6 +168,10 @@ public class BooleanConditionHandler {
 
     }
 
+    /**
+     * If we have a list with extra commas, eg: [wow,, each,, word,, has,, a,, comma],
+     * then this removes those commans
+     */
     public static List<String> removeCommas(List<String> lst) {
         for (int i = 0; i < lst.size(); i++) {
             if (lst.get(i).endsWith(",")) {

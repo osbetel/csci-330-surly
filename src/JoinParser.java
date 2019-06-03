@@ -7,7 +7,6 @@
  */
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class JoinParser {
@@ -31,8 +30,6 @@ public class JoinParser {
          * MAKE SURE A is the SMALLER RELATION THAN B
          * This way we can reduce handling of duplicates too much
          */
-        System.out.println(A);
-        System.out.println(B);
         //To add two relations together, we need to add onto the schema, and add on the tuples
         Relation C = A.copy();
         C.getSchema().addAll(B.getSchema());
@@ -65,11 +62,17 @@ public class JoinParser {
     }
 
 
+    /**
+     * Parses the input string into an ArrayList like [JOIN, relA, relB, ON, conditions...]
+     */
     public List<String> parseStatement() {
         ArrayList<String> separated = BooleanConditionHandler.combineSingleQuotes(input.split(" "));
         return BooleanConditionHandler.removeCommas(separated);
     }
 
+    /**
+     * Extracts from the statement, the sublist of all relation names
+     */
     public List<String> parseRelationNames() {
         return statement.subList(3, statement.indexOf("ON"));
     }
@@ -79,6 +82,10 @@ public class JoinParser {
         return separated.subList(separated.indexOf("ON") + 1, separated.size());
     }
 
+    /**
+     * Parses the name of the assignment, ie: J = JOIN ... will be stored in the tempDB as J.
+     * @return
+     */
     public String parseAssignmentName() {
         return input.split(" ")[0];
     }

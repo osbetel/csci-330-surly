@@ -39,10 +39,19 @@ public class Tuple {
         return values;
     }
 
+    /**
+     * re assign the List of Attribute Values. Used when performing intersections of Relations
+     * like in Join, Select, and Delete parsers
+     */
     public void setValues(LinkedList<AttributeValue> lst) {
         values = lst;
     }
 
+    /**
+     * For use with the JoinParser
+     * @param oldname The original name, like CNUM
+     * @param newName new name, eg: COURSE.CNUM
+     */
     public void setAttributeValueName(String oldname, String newName) {
         AttributeValue val = getAttrValue(oldname);
         if (val == null) {
@@ -78,6 +87,9 @@ public class Tuple {
         return null;
     }
 
+    /**
+     * A binary search just like the one above but returns the AttributeValue object
+     */
     public AttributeValue attributeValueBinarySearch(String name, int start, int end) {
         if (start == end) {
             return null;

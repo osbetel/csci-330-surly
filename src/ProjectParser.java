@@ -22,6 +22,11 @@ public class ProjectParser {
         this.input = input;
     }
 
+    /**
+     * PROJECT command
+     * @param copy We're given a deep copy of the Relation to project
+     * @return Return the deep copy with only the selected attributes
+     */
     public Relation project(Relation copy) {
         // Supposing the input = "PROJECT CNUM, CREDITS FROM COURSE"
         List<String> desiredAttr = parseProjectStatement();
@@ -31,6 +36,9 @@ public class ProjectParser {
         return newRel;
     }
 
+    /**
+     * Given our deep copy, this extracts the attributes that we want and ignores all others
+     */
     public Relation extractAttributes(Relation copy, List<String> lst) {
         // from PROJECT command. In this case clause is <attribute names>
         //temprelationname = PROJECT <attributenames> FROM relationname;
@@ -66,6 +74,9 @@ public class ProjectParser {
         return copy;
     }
 
+    /**
+     * Does the input clause ("PROJECT [attributes] FROM [Relation]") contain a specific string?
+     */
     private boolean clauseContains(String attrName, List<String> clause) {
         for (String s : clause) {
             if (attrName.equals(s)) {
