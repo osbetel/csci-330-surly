@@ -96,6 +96,10 @@ public class Relation {
         this.tuples = tuples;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     //Specifically, returns how many attributes something in this Relation should have
     public int getAttrCount() {
         return schema.size();

@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -62,7 +63,7 @@ public class LexicalAnalyzer {
                 //Format is as follows: RELATION relationName (attrName1 <dataType> numOfChars,...);
                 RelationParser rp = new RelationParser(commandToParse);
                 String relationName = rp.parseRelationName();
-                int attrCount = rp.parseAttributeCount();
+                int attrCount = rp.parseAttributeCount(); //var not used but the function execution is necessary
                 String[] attrFormat = rp.getAttrFormat();
 
                 if (!primaryDB.containsRelation(relationName)) {
@@ -97,10 +98,10 @@ public class LexicalAnalyzer {
             else if (commandToParse.startsWith("DELETE")) {
                 DeleteParser dp = new DeleteParser(commandToParse);
                 String relName = dp.parseRelationName();
-                //todo delete where
+
                 if (primaryDB.containsRelation(relName)) {
                     Relation rel = primaryDB.getRelation(relName);
-                    rel.delete();
+                    dp.delete(rel);
                 } else {
                     System.out.println("Relation \"" + relName + "\" is not in the database.");
                 }
@@ -125,40 +126,65 @@ public class LexicalAnalyzer {
                     if (r.equals("CATALOG")) {
                         primaryDB.printCatalog();
                     } else {
-                        primaryDB.printRelation(r);
+                        System.out.println(fetchRelation(r));
                     }
                 }
             }
 
-            else if (commandToParse.startsWith("JOIN")) {
-//                JoinParser jp = new JoinParser(commandToParse);
-
+            else if (commandToParse.contains("JOIN")) {
+                JoinParser jp = new JoinParser(commandToParse);
+                List<String> relNames = jp.parseRelationNames();
+                Relation A = fetchRelation(relNames.get(0)).copy();
+                Relation B = fetchRelation(relNames.get(1)).copy();
+                Relation newRel = jp.join(A, B);
+                newRel.setName(jp.parseAssignmentName());
+                tempDB.addRelation(newRel);
+                System.out.println(newRel);
             }
+
             //Project parser constructor takes in a string that conatains which atributes to project
             //and a deep copy provided by rel.copy, which can be edited to have the desired
             //atrributes to print
-            else if (commandToParse.startsWith("PROJECT")) {
+            else if (commandToParse.contains("PROJECT")) {
                 ProjectParser pp = new ProjectParser(commandToParse);
-                Relation rel = primaryDB.getRelation(pp.parseRelationName());
+                Relation rel = fetchRelation(pp.parseRelationName());
                 Relation newRel = pp.project(rel.copy());
+                newRel.setName(pp.parseAssignmentName());
                 tempDB.addRelation(newRel);
-                tempDB.printRelation(newRel.getName());
             }
 
-            else if (commandToParse.startsWith("SELECT")) {
-                //SELECT is essentially just fetching a table and placing it into a var we can reference
+            else if (commandToParse.contains("SELECT")) {
                 SelectParser sp = new SelectParser(commandToParse);
-                Relation rel = primaryDB.getRelation(sp.parseRelationName());
+                Relation rel = fetchRelation(sp.parseRelationName());
                 Relation newRel = sp.select(rel.copy());
-                //rel.copy provides a deep copy so we don't modify the original relation
-                //then sp.select will run through the boolean conditions and filter accordingly
+                newRel.setName(sp.parseAssignmentName());
                 tempDB.addRelation(newRel);
-                tempDB.printRelation(newRel.getName());
             }
 
             else {  //For random or unrecognized, non-legitimate commands, just skips over them
                 continue;
             }
+        }
+//        for (Relation r : tempDB.allRelations()) {
+//            System.out.println(r);
+//        }
+    }
+
+    /**
+     * Checks both temp and primary DB for the Relation.
+     * To be used in cases like SELECT, PROJECT, JOIN
+     * But if not base / primary Relations, can't be used for INSERT, DELETE, DESTROY
+     * @param name
+     * @return
+     */
+    public Relation fetchRelation(String name) {
+        if (primaryDB.containsRelation(name)) {
+            return primaryDB.getRelation(name);
+        } else if (tempDB.containsRelation(name)) {
+            return tempDB.getRelation(name);
+        } else {
+            System.out.println("Relation \"" + name + "\" is not in the database.");
+            return null;
         }
     }
 

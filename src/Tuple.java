@@ -31,12 +31,24 @@ public class Tuple {
         return valueBinarySearch(attrName, 0, values.size());
     }
 
+    public AttributeValue getAttrValue(String attrName) {
+        return attributeValueBinarySearch(attrName, 0, values.size());
+    }
+
     public final LinkedList<AttributeValue> getValueList() {
         return values;
     }
 
     public void setValues(LinkedList<AttributeValue> lst) {
         values = lst;
+    }
+
+    public void setAttributeValueName(String oldname, String newName) {
+        AttributeValue val = getAttrValue(oldname);
+        if (val == null) {
+            return;
+        }
+        val.setName(newName);
     }
 
     /**
@@ -47,7 +59,6 @@ public class Tuple {
      * @return Returns the attribute values as a String to getValue()
      */
     private String valueBinarySearch(String name, int start, int end) {
-
         if (start == end) {
             return null;
         }
@@ -58,6 +69,26 @@ public class Tuple {
         } else if (start < mid && mid < end) {
             String left = valueBinarySearch(name, start, mid);
             String right = valueBinarySearch(name, mid, end);
+            if (left != null) {
+                return left;
+            } else {
+                return right;
+            }
+        }
+        return null;
+    }
+
+    public AttributeValue attributeValueBinarySearch(String name, int start, int end) {
+        if (start == end) {
+            return null;
+        }
+
+        int mid = (start + end) / 2;
+        if (values.get(mid).getName().equals(name)) {
+            return values.get(mid);
+        } else if (start < mid && mid < end) {
+             AttributeValue left = attributeValueBinarySearch(name, start, mid);
+             AttributeValue right = attributeValueBinarySearch(name, mid, end);
             if (left != null) {
                 return left;
             } else {

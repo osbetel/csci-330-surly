@@ -60,6 +60,10 @@ public class SurlyDatabase {
         return null;
     }
 
+    public final LinkedList<Relation> allRelations() {
+        return relations;
+    }
+
     /**
      * Utilizes the binary search above to find a given Relation by name.
      * @param relName Name of the target Relation

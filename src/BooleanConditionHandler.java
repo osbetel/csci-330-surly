@@ -155,4 +155,13 @@ public class BooleanConditionHandler {
         return result;
 
     }
+
+    public static List<String> removeCommas(List<String> lst) {
+        for (int i = 0; i < lst.size(); i++) {
+            if (lst.get(i).endsWith(",")) {
+                lst.set(i, lst.get(i).substring(0, lst.get(i).length() - 1));
+            }
+        }
+        return lst;
+    }
 }

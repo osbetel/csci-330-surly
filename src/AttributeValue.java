@@ -28,6 +28,10 @@ public class AttributeValue{
         return parentType;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @Override
     public String toString() {
         String[] s = new String[2];

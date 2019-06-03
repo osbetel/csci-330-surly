@@ -80,7 +80,7 @@ public class ProjectParser {
         if (!separated.contains("FROM")) {
             return separated.subList(1, separated.size());
         }
-        return removeCommas(separated.subList(separated.indexOf("PROJECT") + 1, separated.indexOf("FROM")));
+        return BooleanConditionHandler.removeCommas(separated.subList(separated.indexOf("PROJECT") + 1, separated.indexOf("FROM")));
     }
 
     public String parseRelationName() {
@@ -88,18 +88,7 @@ public class ProjectParser {
         return line[line.length - 1];
     }
 
-    private List<String> removeCommas(List<String> lst) {
-        for (int i = 0; i < lst.size(); i++) {
-            if (lst.get(i).endsWith(",")) {
-                lst.set(i, lst.get(i).substring(0, lst.get(i).length() - 1));
-            }
-        }
-        return lst;
+    public String parseAssignmentName() {
+        return input.split(" ")[0];
     }
-
-
-
-
-
-
 }
